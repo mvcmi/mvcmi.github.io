@@ -1,0 +1,6 @@
+﻿mvcmi.compute\_cmi
+==================
+
+.. currentmodule:: mvcmi
+
+.. autofunction:: compute_cmi

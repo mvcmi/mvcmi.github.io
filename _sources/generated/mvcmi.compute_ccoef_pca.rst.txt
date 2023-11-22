@@ -1,0 +1,6 @@
+﻿mvcmi.compute\_ccoef\_pca
+=========================
+
+.. currentmodule:: mvcmi
+
+.. autofunction:: compute_ccoef_pca

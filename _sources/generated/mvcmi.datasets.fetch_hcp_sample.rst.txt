@@ -1,0 +1,6 @@
+﻿mvcmi.datasets.fetch\_hcp\_sample
+=================================
+
+.. currentmodule:: mvcmi.datasets
+
+.. autofunction:: fetch_hcp_sample

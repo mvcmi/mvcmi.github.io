@@ -1,0 +1,6 @@
+﻿mvcmi.datasets.load\_label\_ts
+==============================
+
+.. currentmodule:: mvcmi.datasets
+
+.. autofunction:: load_label_ts
