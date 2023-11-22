@@ -1,7 +1,7 @@
 :orphan:
 
-CMB Examples
-============
+MVCMI Examples
+==============
 
 
 
