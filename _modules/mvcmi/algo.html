@@ -198,6 +198,23 @@
     <span class="k">return</span> <span class="n">cmi</span></div>
 
 <div class="viewcode-block" id="z_score"><a class="viewcode-back" href="../../generated/mvcmi.z_score.html#mvcmi.z_score">[docs]</a><span class="k">def</span> <span class="nf">z_score</span><span class="p">(</span><span class="n">data_cmis</span><span class="p">,</span> <span class="n">null_cmis</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute z-score from the data and null CMIs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_cmis : array, shape (n_labels, n_labels)</span>
+<span class="sd">        The data CMI matrix.</span>
+<span class="sd">    null_cmis : array, shape (n_seeds, n_labels, n_labels)</span>
+<span class="sd">        The null CMI matrix.</span>
+<span class="sd">    alpha : float | None</span>
+<span class="sd">        The alpha to use for the thresholding. Must be</span>
+<span class="sd">        between 0. and 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    z_cmis : array, shape (n_labels, n_labels)</span>
+<span class="sd">        The z-scored CMI matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">p</span> <span class="o">=</span> <span class="n">data_cmis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">idx_lt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril_indices</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>

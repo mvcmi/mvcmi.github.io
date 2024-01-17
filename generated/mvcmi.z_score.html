@@ -119,7 +119,27 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mvcmi.z_score">
 <span class="sig-prename descclassname"><span class="pre">mvcmi.</span></span><span class="sig-name descname"><span class="pre">z_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_cmis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">null_cmis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mvcmi/algo.html#z_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvcmi.z_score" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Compute z-score from the data and null CMIs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data_cmis</strong><span class="classifier">array, shape (n_labels, n_labels)</span></dt><dd><p>The data CMI matrix.</p>
+</dd>
+<dt><strong>null_cmis</strong><span class="classifier">array, shape (n_seeds, n_labels, n_labels)</span></dt><dd><p>The null CMI matrix.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float | None</span></dt><dd><p>The alpha to use for the thresholding. Must be
+between 0. and 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>z_cmis</strong><span class="classifier">array, shape (n_labels, n_labels)</span></dt><dd><p>The z-scored CMI matrix.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 
