@@ -1,0 +1,6 @@
+﻿mvcmi.pca.reduce\_dim
+=====================
+
+.. currentmodule:: mvcmi.pca
+
+.. autofunction:: reduce_dim
