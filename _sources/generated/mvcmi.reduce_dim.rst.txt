@@ -1,6 +1,0 @@
-﻿mvcmi.reduce\_dim
-=================
-
-.. currentmodule:: mvcmi
-
-.. autofunction:: reduce_dim

@@ -196,6 +196,35 @@
     <span class="n">pcor_mv</span> <span class="o">=</span> <span class="n">partial_corr_mvar</span><span class="p">(</span><span class="n">label_ts</span><span class="p">)</span>
     <span class="n">cmi</span> <span class="o">=</span> <span class="n">cmui_from_pcor_mvar</span><span class="p">(</span><span class="n">label_ts</span><span class="p">,</span> <span class="n">pcor_mv</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cmi</span></div>
+
+<div class="viewcode-block" id="z_score"><a class="viewcode-back" href="../../generated/mvcmi.z_score.html#mvcmi.z_score">[docs]</a><span class="k">def</span> <span class="nf">z_score</span><span class="p">(</span><span class="n">data_cmis</span><span class="p">,</span> <span class="n">null_cmis</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">data_cmis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx_lt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril_indices</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">z_cmi</span> <span class="o">=</span> <span class="n">data_cmis</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># z-score</span>
+    <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">null_cmis</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">null_cmis</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">z_cmi</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span> <span class="o">-=</span> <span class="n">mu</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span>
+    <span class="n">z_cmi</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span> <span class="o">/=</span> <span class="n">sig</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span>
+
+    <span class="n">z_cmi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">z_cmi</span><span class="p">)</span>
+
+    <span class="c1"># Thresholding</span>
+    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">percentile</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">100.</span>
+        <span class="n">null_cmis</span> <span class="o">-=</span> <span class="n">mu</span>
+        <span class="n">null_cmis</span> <span class="o">/=</span> <span class="n">sig</span>
+        <span class="n">z_thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">null_cmis</span><span class="p">,</span> <span class="n">percentile</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">z_cmi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">z_cmi</span><span class="p">,</span> <span class="n">z_thresh</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># remove nans</span>
+        <span class="n">z_cmi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">z_cmi</span><span class="p">)</span>
+        <span class="n">z_cmi2</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span> <span class="o">=</span> <span class="n">z_cmi</span><span class="p">[</span><span class="n">idx_lt</span><span class="p">]</span>
+        <span class="n">z_cmi</span> <span class="o">=</span> <span class="n">z_cmi2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">z_cmi</span></div>
 </pre></div>
 
     </div>

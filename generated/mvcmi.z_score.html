@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>mvcmi.reduce_dim &#8212; mvcmi  documentation</title>
+    <title>mvcmi.z_score &#8212; mvcmi  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css?v=9afac83c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -75,8 +75,8 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">mvcmi.reduce_dim</a><ul>
-<li><a class="reference internal" href="#mvcmi.reduce_dim"><code class="docutils literal notranslate"><span class="pre">reduce_dim()</span></code></a></li>
+<li><a class="reference internal" href="#">mvcmi.z_score</a><ul>
+<li><a class="reference internal" href="#mvcmi.z_score"><code class="docutils literal notranslate"><span class="pre">z_score()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -90,7 +90,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/generated/mvcmi.reduce_dim.rst.txt"
+  <a href="../_sources/generated/mvcmi.z_score.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -114,33 +114,12 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="mvcmi-reduce-dim">
-<h1>mvcmi.reduce_dim<a class="headerlink" href="#mvcmi-reduce-dim" title="Permalink to this heading">¶</a></h1>
+  <section id="mvcmi-z-score">
+<h1>mvcmi.z_score<a class="headerlink" href="#mvcmi-z-score" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="mvcmi.reduce_dim">
-<span class="sig-prename descclassname"><span class="pre">mvcmi.</span></span><span class="sig-name descname"><span class="pre">reduce_dim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">this_label_ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_red</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_use</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mvcmi/pca.html#reduce_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvcmi.reduce_dim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reduce dimensionality using PCA.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>this_label_ts</strong><span class="classifier">array, shape (n_voxels, n_times)</span></dt><dd><p>The label time series.</p>
-</dd>
-<dt><strong>dim_red</strong><span class="classifier">float</span></dt><dd><p>The fraction explained variance to target (between 0 and 1.),
-only applicable if n_use is not None.</p>
-</dd>
-<dt><strong>min_dim</strong><span class="classifier">int</span></dt><dd><p>The minimum dimensionality, only applicable if n_use is not None.</p>
-</dd>
-<dt><strong>max_dim</strong><span class="classifier">int</span></dt><dd><p>The maximum number of dimensions, only applicable if n_use is not None.</p>
-</dd>
-<dt><strong>n_use</strong><span class="classifier">int | None</span></dt><dd><p>If None, then infer the number of components based on dim_red,
-min_dim, and max_dim. This is typically for the data. If not None,
-then use n_use components for the PCA reduction. This is typically
-for the noise.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="mvcmi.z_score">
+<span class="sig-prename descclassname"><span class="pre">mvcmi.</span></span><span class="sig-name descname"><span class="pre">z_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_cmis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">null_cmis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mvcmi/algo.html#z_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mvcmi.z_score" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 

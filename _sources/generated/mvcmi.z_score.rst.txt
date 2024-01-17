@@ -1,0 +1,6 @@
+﻿mvcmi.z\_score
+==============
+
+.. currentmodule:: mvcmi
+
+.. autofunction:: z_score

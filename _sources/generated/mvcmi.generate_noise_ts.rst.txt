@@ -1,0 +1,6 @@
+﻿mvcmi.generate\_noise\_ts
+=========================
+
+.. currentmodule:: mvcmi
+
+.. autofunction:: generate_noise_ts

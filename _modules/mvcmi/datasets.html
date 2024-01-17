@@ -107,6 +107,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;Dataset fetcher.&quot;&quot;&quot;</span>
 
 <span class="c1"># Authors: Mainak Jas &lt;mjas@mgh.harvard.edu&gt;</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pooch</span>
@@ -131,6 +132,8 @@
 
     <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">pooch</span><span class="o">.</span><span class="n">os_cache</span><span class="p">(</span><span class="s1">&#39;mvcmi&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     
     <span class="n">urls</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;aparc.a2009s:subc4-label_names.txt&#39;</span><span class="p">:</span> <span class="s1">&#39;https://osf.io/urg7e/download&#39;</span><span class="p">,</span>
             <span class="s1">&#39;irmia_2012_order.txt&#39;</span><span class="p">:</span> <span class="s1">&#39;https://osf.io/kh9bj/download&#39;</span><span class="p">,</span>

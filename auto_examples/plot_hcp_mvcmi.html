@@ -120,26 +120,28 @@ to download the full example code</p>
 <span id="sphx-glr-auto-examples-plot-hcp-mvcmi-py"></span><h1>Run MVCMI on HCP data<a class="headerlink" href="#run-mvcmi-on-hcp-data" title="Permalink to this heading">¶</a></h1>
 <p>This example demonstrates how to run MVCMI on
 pre-processed HCP data.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Padma Sundaram</span>
-<span class="c1">#          Mainak Jas</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Authors: Padma Sundaram &lt;padma@nmr.mgh.harvard.edu&gt;</span>
+<span class="c1">#          Mainak Jas &lt;mjas@mgh.harvard.edu&gt;</span>
 </pre></div>
 </div>
 <p>we will first load the necessary modules</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">mvcmi</span> <span class="kn">import</span> <a href="../generated/mvcmi.compute_cmi.html#mvcmi.compute_cmi" title="mvcmi.compute_cmi" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_cmi</span></a><span class="p">,</span> <a href="../generated/mvcmi.compute_ccoef_pca.html#mvcmi.compute_ccoef_pca" title="mvcmi.compute_ccoef_pca" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_ccoef_pca</span></a><span class="p">,</span> <a href="../generated/mvcmi.reduce_dim.html#mvcmi.reduce_dim" title="mvcmi.reduce_dim" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">reduce_dim</span></a>
+<span class="kn">from</span> <span class="nn">mvcmi</span> <span class="kn">import</span> <a href="../generated/mvcmi.compute_cmi.html#mvcmi.compute_cmi" title="mvcmi.compute_cmi" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_cmi</span></a><span class="p">,</span> <a href="../generated/mvcmi.compute_ccoef_pca.html#mvcmi.compute_ccoef_pca" title="mvcmi.compute_ccoef_pca" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_ccoef_pca</span></a><span class="p">,</span> <a href="../generated/mvcmi.generate_noise_ts.html#mvcmi.generate_noise_ts" title="mvcmi.generate_noise_ts" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">generate_noise_ts</span></a><span class="p">,</span> <a href="../generated/mvcmi.z_score.html#mvcmi.z_score" title="mvcmi.z_score" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">z_score</span></a>
+<span class="kn">from</span> <span class="nn">mvcmi.pca</span> <span class="kn">import</span> <span class="n">reduce_dim</span>
 <span class="kn">from</span> <span class="nn">mvcmi.datasets</span> <span class="kn">import</span> <a href="../generated/mvcmi.datasets.fetch_hcp_sample.html#mvcmi.datasets.fetch_hcp_sample" title="mvcmi.datasets.fetch_hcp_sample" class="sphx-glr-backref-module-mvcmi-datasets sphx-glr-backref-type-py-function"><span class="n">fetch_hcp_sample</span></a><span class="p">,</span> <a href="../generated/mvcmi.datasets.load_label_ts.html#mvcmi.datasets.load_label_ts" title="mvcmi.datasets.load_label_ts" class="sphx-glr-backref-module-mvcmi-datasets sphx-glr-backref-type-py-function"><span class="n">load_label_ts</span></a>
 
 <span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 
-<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># number of cores to use when running PCA in parallel</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a> <span class="o">=</span> <span class="mi">30</span> <span class="c1"># number of cores to use when running PCA in parallel</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_parcels</span></a> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># just to make example run faster</span>
 <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dim_red</span></a> <span class="o">=</span> <span class="mf">0.95</span>
 </pre></div>
 </div>
 <p>load the preprocessed data</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_path</span></a> <span class="o">=</span> <a href="../generated/mvcmi.datasets.fetch_hcp_sample.html#mvcmi.datasets.fetch_hcp_sample" title="mvcmi.datasets.fetch_hcp_sample" class="sphx-glr-backref-module-mvcmi-datasets sphx-glr-backref-type-py-function"><span class="n">fetch_hcp_sample</span></a><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path</span></a> <span class="o">=</span> <span class="s1">&#39;/autofs/space/meghnn_001/users/mjas/github_repos/mvcmi_open/examples/mvcmi_data&#39;</span>
+<a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_path</span></a> <span class="o">=</span> <a href="../generated/mvcmi.datasets.fetch_hcp_sample.html#mvcmi.datasets.fetch_hcp_sample" title="mvcmi.datasets.fetch_hcp_sample" class="sphx-glr-backref-module-mvcmi-datasets sphx-glr-backref-type-py-function"><span class="n">fetch_hcp_sample</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">path</span></a><span class="p">)</span>
 
 <a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_fname</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_path</span></a> <span class="o">/</span> <span class="s1">&#39;label_ts.npz&#39;</span>
 <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts</span></a> <span class="o">=</span> <a href="../generated/mvcmi.datasets.load_label_ts.html#mvcmi.datasets.load_label_ts" title="mvcmi.datasets.load_label_ts" class="sphx-glr-backref-module-mvcmi-datasets sphx-glr-backref-type-py-function"><span class="n">load_label_ts</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/pathlib.html#pathlib.PosixPath" title="pathlib.PosixPath" class="sphx-glr-backref-module-pathlib sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_fname</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_parcels</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_parcels</span></a><span class="p">)</span>
@@ -157,14 +159,21 @@ pre-processed HCP data.</p>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">max_dim</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_times</span></a> <span class="o">-</span> <span class="mi">15</span>
 
 <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">parcel_sizes</span></a> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts</span></a><span class="p">)</span>
-<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_red</span></a> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><a href="../generated/mvcmi.reduce_dim.html#mvcmi.reduce_dim" title="mvcmi.reduce_dim" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">reduce_dim</span></a><span class="p">)(</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_red</span></a> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">reduce_dim</span><span class="p">)(</span>
     <span class="n">this_ts</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dim_red</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dim_red</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">min_dim</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">min_dim</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">max_dim</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">max_dim</span></a><span class="p">,</span> <span class="n">n_use</span><span class="o">=</span><span class="n">n_use</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">this_ts</span><span class="p">,</span> <span class="n">n_use</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">parcel_sizes</span></a><span class="p">))</span>
 </pre></div>
 </div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    1.0s remaining:    4.0s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    1.9s remaining:    1.9s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    2.1s remaining:    0.5s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    2.7s finished
+</pre></div>
+</div>
 <p>do the actual CMI computation</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;computing cmi&quot;</span><span class="p">)</span>
-<a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmimtx</span></a> <span class="o">=</span> <a href="../generated/mvcmi.compute_cmi.html#mvcmi.compute_cmi" title="mvcmi.compute_cmi" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_cmi</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_red</span></a><span class="p">)</span>
+<a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_cmi</span></a> <span class="o">=</span> <a href="../generated/mvcmi.compute_cmi.html#mvcmi.compute_cmi" title="mvcmi.compute_cmi" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_cmi</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_red</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>computing cmi
@@ -183,7 +192,7 @@ mvcon partial_corr_mvar
 8
 9
 mvcon cmui_from_pcor_mvar
-/Users/mainak/Desktop/github_repos/mvcmi/mvcmi/algo.py:70: RuntimeWarning: invalid value encountered in log
+/autofs/space/meghnn_001/users/mjas/github_repos/mvcmi_open/mvcmi/algo.py:70: RuntimeWarning: invalid value encountered in log
   cmui[ii, jj] = -0.5 * np.sum(np.log(1 - s[0:n]))
 </pre></div>
 </div>
@@ -196,11 +205,11 @@ mvcon cmui_from_pcor_mvar
 </pre></div>
 </div>
 <p>plot the CMI matrix</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmimtx</span></a><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_cmi</span></a><span class="p">)</span>
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar" title="matplotlib.pyplot.colorbar" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_hcp_mvcmi_001.png" srcset="../_images/sphx_glr_plot_hcp_mvcmi_001.png" alt="plot hcp mvcmi" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar object at 0x7ff02385f820&gt;
+<img src="../_images/sphx_glr_plot_hcp_mvcmi_001.png" srcset="../_images/sphx_glr_plot_hcp_mvcmi_001.png" alt="plot hcp mvcmi" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar object at 0x7ff2c428d310&gt;
 </pre></div>
 </div>
 <p>plot the correlation matrix</p>
@@ -209,10 +218,284 @@ mvcon cmui_from_pcor_mvar
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar" title="matplotlib.pyplot.colorbar" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_hcp_mvcmi_002.png" srcset="../_images/sphx_glr_plot_hcp_mvcmi_002.png" alt="plot hcp mvcmi" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar object at 0x7fefc00550a0&gt;
+<img src="../_images/sphx_glr_plot_hcp_mvcmi_002.png" srcset="../_images/sphx_glr_plot_hcp_mvcmi_002.png" alt="plot hcp mvcmi" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar object at 0x7ff2c41482b0&gt;
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 45.587 seconds)</p>
+<p>now let us compute CMI for the null distribution. Generally, the number
+of seeds are determined empirically. For the HCP dataset, it was observed
+that 50 seeds are sufficient to obtain stable null distribution.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">noise_ts</span></a> <span class="o">=</span> <a href="../generated/mvcmi.generate_noise_ts.html#mvcmi.generate_noise_ts" title="mvcmi.generate_noise_ts" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">generate_noise_ts</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_ts_red</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">min_dim</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">max_dim</span></a><span class="p">,</span>
+                             <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dim_red</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">dim_red</span></a><span class="p">,</span> <span class="n">seed1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seed2</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                             <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n_jobs</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">null_cmis</span></a> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">seed</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">this_noise_ts</span></a> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">noise_ts</span></a><span class="p">):</span>  <span class="c1"># iterate over seeds</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mvcmi for seed </span><span class="si">{</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">seed</span></a><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">null_cmis</span></a><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="../generated/mvcmi.compute_cmi.html#mvcmi.compute_cmi" title="mvcmi.compute_cmi" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">compute_cmi</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">this_noise_ts</span></a><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Generating noise time series
+0
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.5s remaining:    1.9s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.7s remaining:    0.7s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.8s remaining:    0.2s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    1.0s finished
+1
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.5s remaining:    2.0s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.7s remaining:    0.7s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.8s remaining:    0.2s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    1.1s finished
+2
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.7s finished
+3
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.7s finished
+4
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.4s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.6s finished
+5
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.3s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.6s finished
+6
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.7s finished
+7
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.4s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.7s finished
+8
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.3s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.6s finished
+9
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.6s finished
+10
+[Parallel(n_jobs=30)]: Using backend LokyBackend with 30 concurrent workers.
+[Parallel(n_jobs=30)]: Done   2 out of  10 | elapsed:    0.1s remaining:    0.4s
+[Parallel(n_jobs=30)]: Done   5 out of  10 | elapsed:    0.3s remaining:    0.3s
+[Parallel(n_jobs=30)]: Done   8 out of  10 | elapsed:    0.4s remaining:    0.1s
+[Parallel(n_jobs=30)]: Done  10 out of  10 | elapsed:    0.7s finished
+mvcmi for seed 0
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 1
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 2
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 3
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 4
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 5
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 6
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 7
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 8
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 9
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+mvcmi for seed 10
+mvcon compute_cmi
+mvcon partial_corr_mvar
+(1633, 1200)
+(11,)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+mvcon cmui_from_pcor_mvar
+</pre></div>
+</div>
+<p>finally, we z-score the CMI values (and optionally threshold)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z_cmi</span></a> <span class="o">=</span> <a href="../generated/mvcmi.z_score.html#mvcmi.z_score" title="mvcmi.z_score" class="sphx-glr-backref-module-mvcmi sphx-glr-backref-type-py-function"><span class="n">z_score</span></a><span class="p">(</span><a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_cmi</span></a><span class="p">,</span> <a href="https://numpy.org/devdocs/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">null_cmis</span></a><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/autofs/space/meghnn_001/users/mjas/github_repos/mvcmi_open/mvcmi/algo.py:104: RuntimeWarning: invalid value encountered in divide
+  z_cmi[idx_lt] /= sig[idx_lt]
+</pre></div>
+</div>
+<p>let us plot the z-scored CMI values</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="matplotlib.pyplot.imshow" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/devdocs/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">z_cmi</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html#matplotlib.pyplot.colorbar" title="matplotlib.pyplot.colorbar" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_plot_hcp_mvcmi_003.png" srcset="../_images/sphx_glr_plot_hcp_mvcmi_003.png" alt="plot hcp mvcmi" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.colorbar.Colorbar object at 0x7ff2c40a0580&gt;
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (2 minutes 33.410 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-hcp-mvcmi-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/6b3fce82349c8010fa0b73fb6bef3932/plot_hcp_mvcmi.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_hcp_mvcmi.ipynb</span></code></a></p>
